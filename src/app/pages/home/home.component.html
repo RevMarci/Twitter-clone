@@ -1,0 +1,22 @@
+<div>
+    <div *ngFor="let tweet of tweets" class="post">
+      <div class="pfp" (click)="searchProfile(tweet.userId)">
+        <img [src]="getUserByID(tweet.userId)?.pfp" alt="pfp" width="40" height="40" />
+      </div>
+      <div class="content">
+        <h1 (click)="searchProfile(tweet.userId)">{{ getUserByID(tweet.userId)?.name }}</h1>
+        <p>{{ tweet.content }}</p>
+        <div class="actions">
+            <div class="like">
+                <img src="heart.png">
+                3
+            </div>
+            <div class="comment">
+                <img src="comment.png">
+                2
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

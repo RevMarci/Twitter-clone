@@ -1,0 +1,20 @@
+.title {
+    padding: 15px;
+}
+
+.title p {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.banner {
+    max-width: 600px;
+}
+
+.profile img {
+    margin-left: 20px;
+    width: 75px;
+    border: 2px solid var(--backgroundColor);
+    border-radius: 10em;
+    transform: scale(2) translate(20px, -22px);
+}

@@ -1,0 +1,52 @@
+.post {
+    padding: 10px;
+    border: 1px solid var(--borderColor);
+    display: flex;
+    transition: 0.2s;
+}
+
+.post:hover {
+    background-color: var(--hoverColor);
+}
+
+.post .pfp img {
+    border-radius: 2em;
+}
+
+.pfp, .content h1 {
+    cursor: pointer;
+}
+
+.content {
+    padding: 0 0 0 10px;
+}
+
+.content h1 {
+    font-size: medium;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.content h1:hover {
+    text-decoration: underline;
+}
+
+.actions {
+    margin-top: 10px;
+    display: flex;
+}
+
+.like, .comment {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.like img {
+    width: 15px;
+    transform: translateY(2px);
+}
+
+.comment img {
+    width: 15px;
+    transform: translateY(2px);
+}

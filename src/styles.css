@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --backgroundColor: #000101;
+    --textcolor: #E7E9EA;
+    --borderColor: #2E3236;
+    --hoverColor: #141415;
+}
+
+* {
+    background-color: var(--backgroundColor);
+    color: var(--textcolor);
+    padding: 0;
+    margin: 0;
+
+    font-family: "Lexend", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    letter-spacing: 1px;
+    font-style: normal;
+}
+
+app-root {
+    display: flex;
+    justify-content: center;
+}
+
+app-menu {
+    width: 200px;
+}
+
+app-home, app-post, app-profile {
+    width: 600px;
+    border: 1px solid var(--borderColor);
+}
+
+div, p, h1 {
+    background-color: transparent;
+}
