@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Like } from '../../models/like.model';
 import { Comment } from '../../models/comment.models';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-home',
@@ -47,9 +47,15 @@ export class HomeComponent implements OnInit {
     return this.users.find(user => user.id === id);
   }
   
-  searchProfile(userId: number) {
-    console.log(userId);
+  searchProfile(userId: number, event: MouseEvent) {
+    event.stopPropagation();
+    console.log("User: " + userId);
     this.router.navigate(['profile', userId]);
+  }
+
+  searchTweet(id: number) {
+    console.log("Tweet: " + id)
+    this.router.navigate(['post', id]);
   }
 
   getLikeAmount(postId: number) {

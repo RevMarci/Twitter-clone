@@ -9,7 +9,7 @@
     },
     {
         "postId": 3,
-        "likedBy": [2, 3]
+        "likedBy": [2]
     },
     {
         "postId": 4,
@@ -18,5 +18,13 @@
     {
         "postId": 5,
         "likedBy": [2, 3]
+    },
+    {
+        "postId": 10002,
+        "likedBy": [3]
+    },
+    {
+        "postId": 10003,
+        "likedBy": [1, 2, 3]
     }
 ]

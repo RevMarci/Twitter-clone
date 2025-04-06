@@ -1,1 +1,31 @@
-<p>post works!</p>
+<div class="title">
+    <a mat-button routerLink=""><mat-icon>arrow_back</mat-icon></a><p>Tweet</p>
+</div>
+<div class="mainTweet">
+    <div class="mainProfile">
+        <div class="pfp" (click)="searchProfile(tweetUser?.id, $event)">
+            <img [src]="tweetUser?.pfp" alt="pfp" width="40" height="40" />
+        </div>
+        <h1 (click)="searchProfile(tweetUser?.id, $event)">{{ tweetUser?.name }}</h1>
+    </div>
+    <div class="mainContent">
+        <p>{{ tweet?.content }}</p>
+    </div>
+    <div class="like" [matBadge]="getLikeAmount(tweet?.id)">
+        <mat-icon>favorite</mat-icon>
+    </div>
+    <div>
+        <div class="comment" *ngFor="let comment of comments">
+            <div class="commentPfp">
+                <img [src]="getUserById(comment.userId)?.pfp" alt="">
+            </div>
+            <div class="commentContent">
+                <h1 (click)="searchProfile(comment.userId, $event)">{{ getUserById(comment.userId)?.name }}</h1>
+                <p>{{ comment.content }}</p>
+                <div class="like" [matBadge]="getLikeAmount(comment.commentId)">
+                    <mat-icon>favorite</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

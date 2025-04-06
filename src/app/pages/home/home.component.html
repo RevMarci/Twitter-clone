@@ -1,11 +1,11 @@
 <div>
   <mat-card *ngFor="let tweet of tweets" class="post">
-    <div class="post-body">
-      <div class="pfp" (click)="searchProfile(tweet.userId)">
+    <div class="post-body" (click)="searchTweet(tweet.id)">
+      <div class="pfp" (click)="searchProfile(tweet.userId, $event)">
         <img [src]="getUserByID(tweet.userId)?.pfp" alt="pfp" width="40" height="40" />
       </div>
       <div class="content">
-        <h1 (click)="searchProfile(tweet.userId)">{{ getUserByID(tweet.userId)?.name }}</h1>
+        <h1 (click)="searchProfile(tweet.userId, $event)">{{ getUserByID(tweet.userId)?.name }}</h1>
         <p>{{ tweet.content }}</p>
         <div class="actions">
           <div class="like" [matBadge]="getLikeAmount(tweet.id)">
