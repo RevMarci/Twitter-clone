@@ -1,8 +1,13 @@
 .post {
     padding: 10px;
     border: 1px solid var(--borderColor);
-    display: flex;
+    border-radius: 0;
+    background-color: transparent;
     transition: 0.2s;
+}
+
+.post-body {
+    display: flex;
 }
 
 .post:hover {

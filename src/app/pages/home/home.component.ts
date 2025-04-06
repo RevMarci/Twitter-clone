@@ -8,11 +8,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Like } from '../../models/like.model';
 import { Comment } from '../../models/comment.models';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatBadgeModule],
+  imports: [CommonModule, MatIconModule, MatBadgeModule, MatCardModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

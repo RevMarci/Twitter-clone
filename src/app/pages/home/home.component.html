@@ -1,5 +1,6 @@
 <div>
-    <div *ngFor="let tweet of tweets" class="post">
+  <mat-card *ngFor="let tweet of tweets" class="post">
+    <div class="post-body">
       <div class="pfp" (click)="searchProfile(tweet.userId)">
         <img [src]="getUserByID(tweet.userId)?.pfp" alt="pfp" width="40" height="40" />
       </div>
@@ -7,14 +8,15 @@
         <h1 (click)="searchProfile(tweet.userId)">{{ getUserByID(tweet.userId)?.name }}</h1>
         <p>{{ tweet.content }}</p>
         <div class="actions">
-            <div class="like" [matBadge]="getLikeAmount(tweet.id)">
-                <mat-icon>favorite</mat-icon>
-            </div>
-            <div class="comment" [matBadge]="getCommentAmount(tweet.id)">
-                <mat-icon>chat_bubble</mat-icon>
-            </div>
+          <div class="like" [matBadge]="getLikeAmount(tweet.id)">
+            <mat-icon>favorite</mat-icon>
+          </div>
+          <div class="comment" [matBadge]="getCommentAmount(tweet.id)">
+            <mat-icon>chat_bubble</mat-icon>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </mat-card>
+</div>
   
