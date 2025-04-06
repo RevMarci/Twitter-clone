@@ -4,13 +4,15 @@ import { CommonModule } from '@angular/common'; // ha NgIf-et vagy más Angular 
 import { User } from '../../models/user.model';
 import { Tweet } from '../../models/tweet.model';
 import { Router } from '@angular/router';
-
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { Like } from '../../models/like.model';
+import { Comment } from '../../models/comment.models';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule, MatBadgeModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -19,6 +21,8 @@ export class HomeComponent implements OnInit {
 
   tweets: Tweet[] = [];
   users: User[] = [];
+  likes: Like[] = [];
+  comments: Comment[] = [];
 
   ngOnInit(): void {
     this.http.get<Tweet[]>('/assets/posts.json').subscribe(data => {
@@ -28,15 +32,30 @@ export class HomeComponent implements OnInit {
     this.http.get<User[]>('/assets/users.json').subscribe(data => {
       this.users = data;
     });
+
+    this.http.get<Like[]>('/assets/likes.json').subscribe(data => {
+      this.likes = data;
+    });
+
+    this.http.get<Comment[]>('/assets/comments.json').subscribe(data => {
+      this.comments = data;
+    });
   }
 
   getUserByID(id: number) {
     return this.users.find(user => user.id === id);
   }
-
   
   searchProfile(userId: number) {
     console.log(userId);
     this.router.navigate(['profile', userId]);
+  }
+
+  getLikeAmount(postId: number) {
+    return this.likes.find(like => like.postId === postId)?.likedBy.length || 0;
+  }
+
+  getCommentAmount(postId: number): number {
+    return this.comments.filter(comment => comment.postId === postId).length;
   }
 }

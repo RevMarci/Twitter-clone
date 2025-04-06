@@ -1,0 +1,35 @@
+mat-sidenav-container {
+    height: 100vh;
+    padding: 10px 10px;
+    background-color: transparent;
+}
+
+mat-sidenav-container a:hover {
+    background-color: transparent;
+}
+
+a {
+    padding: 10px;
+    padding-left: 20px;
+    display: block;
+    font-size: 25px;
+    text-decoration: none;
+    margin-bottom: 20px;
+    border-radius: 2em;
+    transition: 0.2s;
+}
+
+h1, a {
+    line-height: normal;
+    margin-bottom: 0;
+}
+
+nav a:hover {
+    background-color: var(--hoverColor);
+}
+
+a mat-icon {
+    margin-right: 10px;
+    transform: translateY(2px);
+    background-color: transparent;
+}

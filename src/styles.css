@@ -11,12 +11,12 @@
     color: var(--textcolor);
     padding: 0;
     margin: 0;
+}
 
-    font-family: "Lexend", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 200;
-    letter-spacing: 1px;
-    font-style: normal;
+html, body { height: 100%; }
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 app-root {
@@ -30,6 +30,7 @@ app-menu {
 
 app-home, app-post, app-profile {
     width: 600px;
+    min-height: 100vh;
     border: 1px solid var(--borderColor);
 }
 

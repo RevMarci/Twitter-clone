@@ -25,6 +25,7 @@
     font-size: medium;
     font-weight: bold;
     margin-bottom: 5px;
+    line-height: normal;
 }
 
 .content h1:hover {
@@ -39,14 +40,8 @@
 .like, .comment {
     margin-right: 20px;
     cursor: pointer;
-}
+} 
 
-.like img {
-    width: 15px;
-    transform: translateY(2px);
-}
-
-.comment img {
-    width: 15px;
-    transform: translateY(2px);
+mat-icon {
+    background-color: transparent;
 }

@@ -7,13 +7,11 @@
         <h1 (click)="searchProfile(tweet.userId)">{{ getUserByID(tweet.userId)?.name }}</h1>
         <p>{{ tweet.content }}</p>
         <div class="actions">
-            <div class="like">
-                <img src="heart.png">
-                3
+            <div class="like" [matBadge]="getLikeAmount(tweet.id)">
+                <mat-icon>favorite</mat-icon>
             </div>
-            <div class="comment">
-                <img src="comment.png">
-                2
+            <div class="comment" [matBadge]="getCommentAmount(tweet.id)">
+                <mat-icon>chat_bubble</mat-icon>
             </div>
         </div>
       </div>

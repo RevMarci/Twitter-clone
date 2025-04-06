@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'; // Az URL paraméterek kezeléséhez
+import { ActivatedRoute, RouterModule } from '@angular/router'; // Az URL paraméterek kezeléséhez
 import { User } from '../../models/user.model'; // A User model importálása
 import { HttpClient } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
+  imports : [MatIconModule, RouterModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })

@@ -1,0 +1,22 @@
+[
+    {
+        "postId": 1,
+        "likedBy": [2, 3]
+    },
+    {
+        "postId": 2,
+        "likedBy": [2, 3, 1]
+    },
+    {
+        "postId": 3,
+        "likedBy": [2, 3]
+    },
+    {
+        "postId": 4,
+        "likedBy": [2, 3]
+    },
+    {
+        "postId": 5,
+        "likedBy": [2, 3]
+    }
+]
