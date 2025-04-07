@@ -9,11 +9,12 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { Like } from '../../models/like.model';
 import { Comment } from '../../models/comment.models';
 import { MatCardModule } from '@angular/material/card';
+import { ShortenPipe } from '../../pipes/shorten.pipe';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatBadgeModule, MatCardModule],
+  imports: [CommonModule, MatIconModule, MatBadgeModule, MatCardModule, ShortenPipe],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

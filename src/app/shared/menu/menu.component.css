@@ -30,6 +30,6 @@ nav a:hover {
 
 a mat-icon {
     margin-right: 10px;
-    transform: translateY(2px);
+    transform: translateY(3px);
     background-color: transparent;
 }

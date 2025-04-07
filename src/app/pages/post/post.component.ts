@@ -8,11 +8,12 @@ import { Comment } from '../../models/comment.models';
 import { CommonModule } from '@angular/common';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Like } from '../../models/like.model';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [MatIconModule, RouterModule, CommonModule, MatBadgeModule],
+  imports: [MatIconModule, RouterModule, CommonModule, MatBadgeModule, MatDividerModule],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })

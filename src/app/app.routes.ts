@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },  // A főoldal
+  { path: '',
+    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent)
+  },
   {
     path: 'profile/:id',
     loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent)
@@ -11,6 +12,14 @@ export const routes: Routes = [
   {
     path: 'post/:id',
     loadComponent: () => import('./pages/post/post.component').then(m => m.PostComponent)
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'signup',
+    loadComponent: () => import('./pages/signup/signup.component').then(m => m.SignupComponent)
   }
 ];
 

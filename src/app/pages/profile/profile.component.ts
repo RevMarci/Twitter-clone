@@ -8,11 +8,13 @@ import { Tweet } from '../../models/tweet.model';
 import { Like } from '../../models/like.model';
 import { Comment } from '../../models/comment.models';
 import { MatBadgeModule } from '@angular/material/badge';
+import { ShortenPipe } from '../../pipes/shorten.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports : [CommonModule, MatIconModule, RouterModule, MatBadgeModule],
+  imports : [CommonModule, MatIconModule, RouterModule, MatBadgeModule, ShortenPipe],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -24,7 +26,8 @@ export class ProfileComponent implements OnInit {
   
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -56,5 +59,10 @@ export class ProfileComponent implements OnInit {
 
   getCommentAmount(postId: number): number {
     return this.comments.filter(comment => comment.postId === postId).length;
+  }
+
+  searchTweet(id: number) {
+    console.log("Tweet: " + id)
+    this.router.navigate(['post', id]);
   }
 }

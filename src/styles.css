@@ -28,7 +28,7 @@ app-menu {
     width: 200px;
 }
 
-app-home, app-post, app-profile {
+app-home, app-post, app-profile, app-login, app-signup {
     width: 600px;
     min-height: 100vh;
     border: 1px solid var(--borderColor);
