@@ -2,33 +2,29 @@ mat-sidenav-container {
     height: 100vh;
     padding: 10px 10px;
     background-color: transparent;
-  }
-  
-  /* Hover háttér átlátszó */
-  mat-sidenav-container a:hover,
-  mat-sidenav-container mat-list-item:hover {
-    background-color: var(--hoverColor) !important;
-  }
-  
-  /* Alap szín, belső részekre is */
-  a,
-  mat-list-item,
-  mat-list-item .mat-list-item-content,
-  mat-list-item .mat-line,
-  mat-list-item mat-icon {
-    color: var(--textcolor) !important;
-  }
-
-  mat-list-item span,
-mat-list-item .mat-line,
-mat-list-item .mat-list-text {
-  color: var(--textcolor) !important;
 }
 
+mat-sidenav-container a:hover,
+mat-sidenav-container mat-list-item:hover {
+    background-color: var(--hoverColor) !important;
+}
   
-  /* Layout és stílus */
-  a,
-  mat-list-item {
+a,
+mat-list-item,
+mat-list-item .mat-list-item-content,
+mat-list-item .mat-line,
+mat-list-item mat-icon {
+    color: var(--textcolor) !important;
+}
+
+mat-list-item span,
+mat-list-item .mat-line,
+mat-list-item .mat-list-text {
+    color: var(--textcolor) !important;
+}
+
+a,
+mat-list-item {
     padding: 10px 20px;
     display: block;
     font-size: 25px;
@@ -37,25 +33,23 @@ mat-list-item .mat-list-text {
     border-radius: 2em;
     transition: 0.2s;
     background-color: transparent !important;
-  }
+}
   
-  /* H1 és link igazítás */
-  h1,
-  a {
+h1,
+a {
     line-height: normal;
     margin-bottom: 0;
-  }
+}
   
-  /* Ikon stílus */
-  a mat-icon,
-  mat-list-item mat-icon {
+a mat-icon,
+mat-list-item mat-icon {
     margin-right: 10px;
     transform: translateY(3px);
     background-color: transparent;
     color: var(--textcolor) !important;
-  }
+}
   
-  .szvg {
+.szvg {
     color: var(--textcolor) !important;
     background-color: transparent !important;
-  }
+}
