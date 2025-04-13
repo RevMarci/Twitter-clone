@@ -2,24 +2,28 @@
     {
         "id": 4,
         "name": "Trump",
+        "password": "Trump",
         "pfp": "https://pbs.twimg.com/profile_images/1757203362381168640/j9704gu__400x400.jpg",
         "banner": "https://pbs.twimg.com/profile_banners/1686901686185721857/1717108459/1500x500"
     },
     {
         "id": 1,
         "name": "Elon",
+        "password": "Elon",
         "pfp": "https://pbs.twimg.com/profile_images/1893803697185910784/Na5lOWi5_400x400.jpg",
         "banner": "https://pbs.twimg.com/profile_banners/44196397/1739948056/1500x500"
     },
     {
         "id": 2,
         "name": "Petya",
+        "password": "Petya",
         "pfp": "https://pbs.twimg.com/profile_images/1854489809105862661/yLGiOKGL_400x400.jpg",
         "banner": "https://pbs.twimg.com/profile_banners/1797668971220766721/1730449663/1500x500"
     },
     {
         "id": 3,
         "name": "Vitya",
+        "password": "Vitya",
         "pfp": "https://pbs.twimg.com/profile_images/1578320074670227457/DumKdAJQ_400x400.jpg",
         "banner": "https://pbs.twimg.com/profile_banners/1577293480308654082/1665135882/1500x500"
     }
