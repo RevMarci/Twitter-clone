@@ -2,34 +2,60 @@ mat-sidenav-container {
     height: 100vh;
     padding: 10px 10px;
     background-color: transparent;
+  }
+  
+  /* Hover háttér átlátszó */
+  mat-sidenav-container a:hover,
+  mat-sidenav-container mat-list-item:hover {
+    background-color: var(--hoverColor) !important;
+  }
+  
+  /* Alap szín, belső részekre is */
+  a,
+  mat-list-item,
+  mat-list-item .mat-list-item-content,
+  mat-list-item .mat-line,
+  mat-list-item mat-icon {
+    color: var(--textcolor) !important;
+  }
+
+  mat-list-item span,
+mat-list-item .mat-line,
+mat-list-item .mat-list-text {
+  color: var(--textcolor) !important;
 }
 
-mat-sidenav-container a:hover {
-    background-color: transparent;
-}
-
-a {
-    padding: 10px;
-    padding-left: 20px;
+  
+  /* Layout és stílus */
+  a,
+  mat-list-item {
+    padding: 10px 20px;
     display: block;
     font-size: 25px;
     text-decoration: none;
     margin-bottom: 20px;
     border-radius: 2em;
     transition: 0.2s;
-}
-
-h1, a {
+    background-color: transparent !important;
+  }
+  
+  /* H1 és link igazítás */
+  h1,
+  a {
     line-height: normal;
     margin-bottom: 0;
-}
-
-nav a:hover {
-    background-color: var(--hoverColor);
-}
-
-a mat-icon {
+  }
+  
+  /* Ikon stílus */
+  a mat-icon,
+  mat-list-item mat-icon {
     margin-right: 10px;
     transform: translateY(3px);
     background-color: transparent;
-}
+    color: var(--textcolor) !important;
+  }
+  
+  .szvg {
+    color: var(--textcolor) !important;
+    background-color: transparent !important;
+  }
