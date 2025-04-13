@@ -67,3 +67,25 @@
 .mainTweet > .like {
     margin-left: 20px;
 }
+
+form {
+    padding: 20px 20px 0 20px;
+}
+
+form mat-form-field {
+    width: 80%;
+}
+
+form button {
+    margin-left: 15px;
+    width: 15%;
+    border: 1px solid var(--borderColor);
+    border-radius: 2em;
+    padding: 15px;
+    transition: 0.2s;
+    color: var(--textcolor);
+}
+
+form button:hover {
+    background-color: var(--borderColor);
+}

@@ -9,11 +9,13 @@ import { CommonModule } from '@angular/common';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Like } from '../../models/like.model';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [MatIconModule, RouterModule, CommonModule, MatBadgeModule, MatDividerModule],
+  imports: [MatIconModule, RouterModule, CommonModule, MatBadgeModule, MatDividerModule, MatFormFieldModule, MatInputModule],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css'
 })
