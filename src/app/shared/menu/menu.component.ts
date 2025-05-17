@@ -1,10 +1,11 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { AuthService } from '../services/auth.service';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -16,22 +17,19 @@ import { Observable } from 'rxjs';
 })
 export class MenuComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
-  
+  currentUserId$: Observable<string | undefined>;
+
   constructor(public authService: AuthService) {
-    this.isLoggedIn$ = authService.isLoggedIn();
-    
-    // Hibakereséshez
-    this.isLoggedIn$.subscribe(status => {
-      console.log('Login status changed:', status);
-      console.log('LocalStorage:', localStorage.getItem('firebaseUser'));
-    });
+    // Initialize properties in constructor
+    this.isLoggedIn$ = this.authService.isLoggedIn();
+    this.currentUserId$ = this.authService.currentUser$.pipe(
+      map(user => user?.uid)
+    );
   }
 
   ngOnInit() {
-    console.log('Initial auth check - isLoggedIn:', 
-      localStorage.getItem('isLoggedIn'),
-      'User data:', 
-      localStorage.getItem('firebaseUser')
-    );
+    // Debug logs
+    this.isLoggedIn$.subscribe(status => console.log('Login status:', status));
+    this.currentUserId$.subscribe(id => console.log('Current user ID:', id));
   }
 }

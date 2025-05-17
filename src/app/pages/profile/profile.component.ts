@@ -4,13 +4,37 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Router } from '@angular/router';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-
-import { User } from '../../models/user.model';
-import { Tweet } from '../../models/tweet.model';
-import { Like } from '../../models/like.model';
-import { Comment } from '../../models/comment.models';
+import { Firestore, collection, doc, collectionData, docData } from '@angular/fire/firestore';
+import { Observable, combineLatest, map, of } from 'rxjs';
 import { ShortenPipe } from '../../pipes/shorten.pipe';
+import { AuthService } from '../../shared/services/auth.service';
+
+interface User {
+  uid: string;
+  name: string;
+  email: string;
+  pfp: string;
+  banner: string;
+}
+
+interface Post {
+  id: string;
+  content: string;
+  userId: string;
+}
+
+interface Like {
+  id: string;
+  likedBy: string[];
+  postId: string;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  postId: string;
+  userId: string;
+}
 
 @Component({
   selector: 'app-profile',
@@ -26,50 +50,79 @@ import { ShortenPipe } from '../../pipes/shorten.pipe';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  user: User | undefined;
-  tweets: Tweet[] = [];
-  likes: Like[] = [];
-  comments: Comment[] = [];
+  user$: Observable<User | undefined> = of(undefined);
+  tweets$: Observable<Post[]> = of([]);
+  likes$: Observable<Like[]> = of([]);
+  comments$: Observable<Comment[]> = of([]);
+  
+  combinedData$: Observable<{
+    user: User | undefined,
+    tweets: Post[],
+    likes: Like[],
+    comments: Comment[]
+  }> = of({
+    user: undefined,
+    tweets: [],
+    likes: [],
+    comments: []
+  });
 
   constructor(
     private route: ActivatedRoute,
-    private firestore: AngularFirestore,
-    private router: Router
+    private firestore: Firestore,
+    private router: Router,
+    private authService: AuthService // AuthService hozzáadva a konstruktorhoz
   ) {}
 
   ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('id');
-
+    const userId = this.route.snapshot.paramMap.get('id') || this.authService.getCurrentUserId();
+    
     if (userId) {
-      // Felhasználó Firestore-ból
-      this.firestore.collection<User>('users').doc(userId).valueChanges().subscribe(data => {
-        this.user = data;
-      });
+      // Felhasználó adatai
+      const userRef = doc(this.firestore, `users/${userId}`);
+      this.user$ = docData(userRef) as Observable<User>;
 
-      // Tweetek Firestore-ból
-      this.firestore.collection<Tweet>('posts', ref => ref.where('userId', '==', userId))
-        .valueChanges({ idField: 'id' }).subscribe(data => {
-          this.tweets = data;
-        });
+      // Felhasználó tweetjei
+      const postsRef = collection(this.firestore, 'posts');
+      this.tweets$ = collectionData(postsRef, { idField: 'id' }).pipe(
+        map(posts => (posts as Post[]).filter(post => post.userId === userId)
+      ));
 
-      // Like-ok Firestore-ból
-      this.firestore.collection<Like>('likes').valueChanges().subscribe(data => {
-        this.likes = data;
-      });
+      // Like-ok
+      const likesRef = collection(this.firestore, 'likes');
+      this.likes$ = collectionData(likesRef, { idField: 'id' }) as Observable<Like[]>;
 
-      // Kommentek Firestore-ból
-      this.firestore.collection<Comment>('comments').valueChanges().subscribe(data => {
-        this.comments = data;
-      });
+      // Kommentek
+      const commentsRef = collection(this.firestore, 'comments');
+      this.comments$ = collectionData(commentsRef, { idField: 'id' }) as Observable<Comment[]>;
+
+      // Összesített adatok
+      this.combinedData$ = combineLatest([
+        this.user$,
+        this.tweets$,
+        this.likes$,
+        this.comments$
+      ]).pipe(
+        map(([user, tweets, likes, comments]) => ({
+          user,
+          tweets,
+          likes,
+          comments
+        }))
+      );
+    } else {
+      console.error('No user ID available');
+      this.router.navigate(['/']); // Átirányítás, ha nincs user ID
     }
   }
 
-  getLikeAmount(postId: string) {
-    return this.likes.find(like => like.postId === postId)?.likedBy.length || 0;
+  getLikeAmount(likes: Like[], postId: string): number {
+    const like = likes?.find(l => l.postId === postId);
+    return like ? like.likedBy.length : 0;
   }
 
-  getCommentAmount(postId: string): number {
-    return this.comments.filter(comment => comment.postId === postId).length;
+  getCommentAmount(comments: Comment[], postId: string): number {
+    return comments?.filter(comment => comment.postId === postId).length || 0;
   }
 
   searchTweet(id: string) {

@@ -6,67 +6,79 @@ import {
   signOut,
   authState,
   User,
-  UserCredential
+  UserCredential,
+  updateProfile
 } from '@angular/fire/auth';
-import { map, Observable } from 'rxjs';
+import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Observable, firstValueFrom, map, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
-import { Firestore } from '@angular/fire/firestore';
-import { updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  currentUser$: Observable<User | null>;
   private readonly USER_STORAGE_KEY = 'firebaseUser';
-
+  currentUser$: Observable<User | null>;
+  
   constructor(
     private auth: Auth,
     private router: Router,
     private firestore: Firestore
   ) {
-    this.currentUser$ = authState(this.auth);
+    this.currentUser$ = authState(this.auth).pipe(
+      tap(user => {
+        this.updateUserStorage(user);
+        console.log('Auth state changed:', user?.uid);
+      })
+    );
   }
 
+  // Update user data in localStorage
   private updateUserStorage(user: User | null): void {
     if (user) {
       const userData = {
         uid: user.uid,
         email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL
+        displayName: user.displayName || 'Unknown',
+        photoURL: user.photoURL || this.getDefaultProfilePic()
       };
       localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(userData));
-      localStorage.setItem('isLoggedIn', 'true');
     } else {
       localStorage.removeItem(this.USER_STORAGE_KEY);
-      localStorage.setItem('isLoggedIn', 'false');
     }
   }
 
+  // User registration
   async signUp(email: string, password: string, name: string): Promise<UserCredential> {
-  const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-  const user = userCredential.user;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const user = userCredential.user;
 
-  await updateProfile(user, { displayName: name });
+      // Update Firebase profile
+      await updateProfile(user, { 
+        displayName: name,
+        photoURL: this.getDefaultProfilePic()
+      });
 
-  this.updateUserStorage(user);
+      // Create user document in Firestore
+      const userRef = doc(this.firestore, `users/${user.uid}`);
+      await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        name: name,
+        pfp: this.getDefaultProfilePic(),
+        banner: this.getDefaultBanner()
+      });
 
-  const userRef = doc(this.firestore, `users/${user.uid}`);
-  await setDoc(userRef, {
-    uid: user.uid,
-    email: user.email,
-    name: name,
-    pfp: 'https://pbs.twimg.com/profile_images/1757203362381168640/j9704gu__400x400.jpg',
-    banner: 'https://pbs.twimg.com/profile_banners/1686901686185721857/1717108459/1500x500'
-  });
+      this.updateUserStorage(user);
+      return userCredential;
+    } catch (error) {
+      console.error('Signup error:', error);
+      throw error;
+    }
+  }
 
-  return userCredential;
-}
-
-
+  // User login
   async signIn(email: string, password: string): Promise<UserCredential> {
     try {
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
@@ -78,34 +90,56 @@ export class AuthService {
     }
   }
 
+  // User logout
   async signOut(): Promise<void> {
     try {
       await signOut(this.auth);
       this.updateUserStorage(null);
-      this.router.navigateByUrl('/home');
+      this.router.navigate(['/home']);
     } catch (error) {
       console.error('Sign out error:', error);
       throw error;
     }
   }
 
+  // Check login status
   isLoggedIn(): Observable<boolean> {
     return this.currentUser$.pipe(
-      map(user => !!user) // Átalakítjuk boolean értékké
+      map(user => !!user)
     );
   }
 
+  // Get current user data
   async getCurrentUser(): Promise<User | null> {
     return await firstValueFrom(this.currentUser$);
   }
 
+  // Get current user ID
   getCurrentUserId(): string | null {
     const userData = localStorage.getItem(this.USER_STORAGE_KEY);
     return userData ? JSON.parse(userData).uid : null;
   }
 
+  // Get current user email
   getCurrentUserEmail(): string | null {
     const userData = localStorage.getItem(this.USER_STORAGE_KEY);
     return userData ? JSON.parse(userData).email : null;
+  }
+
+  // Debug user storage
+  debugAuthState(): void {
+    this.currentUser$.subscribe(user => {
+      console.log('Current auth state:', user);
+      console.log('Local storage:', localStorage.getItem(this.USER_STORAGE_KEY));
+    });
+  }
+
+  // Helper methods
+  private getDefaultProfilePic(): string {
+    return 'https://pbs.twimg.com/profile_images/1757203362381168640/j9704gu__400x400.jpg';
+  }
+
+  private getDefaultBanner(): string {
+    return 'https://pbs.twimg.com/profile_banners/1686901686185721857/1717108459/1500x500';
   }
 }
