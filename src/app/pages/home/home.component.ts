@@ -44,26 +44,26 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getUserByID(id: number) {
+  getUserByID(id: string) {
     return this.users.find(user => user.id === id);
   }
   
-  searchProfile(userId: number, event: MouseEvent) {
+  searchProfile(userId: string, event: MouseEvent) {
     event.stopPropagation();
     console.log("User: " + userId);
     this.router.navigate(['profile', userId]);
   }
 
-  searchTweet(id: number) {
+  searchTweet(id: string) {
     console.log("Tweet: " + id)
     this.router.navigate(['post', id]);
   }
 
-  getLikeAmount(postId: number) {
+  getLikeAmount(postId: string) {
     return this.likes.find(like => like.postId === postId)?.likedBy.length || 0;
   }
 
-  getCommentAmount(postId: number): number {
+  getCommentAmount(postId: string): number {
     return this.comments.filter(comment => comment.postId === postId).length;
   }
 }

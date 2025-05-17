@@ -40,3 +40,8 @@ app-home, app-post, app-profile, app-login, app-signup {
 div, p, h1 {
     background-color: transparent;
 }
+
+.mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: var(--textcolor) !important;
+    caret-color: var(--textcolor) !important;
+}

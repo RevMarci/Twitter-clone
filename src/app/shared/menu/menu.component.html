@@ -1,8 +1,25 @@
 <mat-sidenav-container>
     <a mat-button routerLink=""><h1>X</h1></a>
     <mat-list role="list">
-        <mat-list-item role="listitem" routerLink=""><mat-icon>home</mat-icon><span class="szvg">Home</span></mat-list-item>
-        <mat-list-item role="listitem" routerLink=""><mat-icon>edit</mat-icon><span class="szvg">Tweet</span></mat-list-item>
-        <mat-list-item role="listitem" routerLink="/login"><mat-icon>person</mat-icon><span class="szvg">Login</span></mat-list-item>
+        <mat-list-item role="listitem" routerLink="">
+            <mat-icon>home</mat-icon>
+            <span class="szvg">Home</span>
+        </mat-list-item>
+        <mat-list-item role="listitem" routerLink="">
+            <mat-icon>edit</mat-icon>
+            <span class="szvg">Tweet</span>
+        </mat-list-item>
+        
+        <!-- Profil menüpont (csak bejelentkezett felhasználóknak) -->
+        <mat-list-item *ngIf="isLoggedIn$ | async" role="listitem" routerLink="/profile">
+            <mat-icon>person</mat-icon>
+            <span class="szvg">Profile</span>
+        </mat-list-item>
+        
+        <!-- Bejelentkezés menüpont (csak NEM bejelentkezett felhasználóknak) -->
+        <mat-list-item *ngIf="(isLoggedIn$ | async) === false" role="listitem" routerLink="/login">
+            <mat-icon>login</mat-icon>
+            <span class="szvg">Login</span>
+        </mat-list-item>
     </mat-list>
 </mat-sidenav-container>

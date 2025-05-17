@@ -1,4 +1,4 @@
 export interface Like {
-    postId: number;
-    likedBy: number[];
+    postId: string;
+    likedBy: string[];
 }

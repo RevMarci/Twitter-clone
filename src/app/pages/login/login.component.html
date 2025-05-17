@@ -1,15 +1,32 @@
 <h1>Login</h1>
 
-<form>
-    <mat-form-field appearance="outline">
-        <mat-label>Name</mat-label>
-        <input matInput type="name">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" type="password">
-    </mat-form-field>
-    <button mat-flat-button>Login</button>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email">
+    <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+      {{ loginForm.get('email')?.hasError('required') ? 'Email is required' : 'Invalid email address' }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" formControlName="password">
+    <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+      {{ loginForm.get('password')?.hasError('required') ? 'Password is required' : 'Minimum 6 characters' }}
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-stroked-button
+        class="login-button"
+        type="submit" 
+        [disabled]="isLoading">
+  <span class="button-label">{{ isLoading ? 'Logging in...' : 'Login' }}</span>
+</button>
 </form>
+
+<div *ngIf="loginError" style="color: red; margin: 30px;">
+  {{ loginError }}
+</div>
 
 <a mat-button routerLink="/signup">Don't have an account? Sign up!</a>

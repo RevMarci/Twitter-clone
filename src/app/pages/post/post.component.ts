@@ -33,7 +33,7 @@ export class PostComponent {
   ) {}
 
   ngOnInit(): void {
-    const tweetId = Number(this.route.snapshot.paramMap.get('id'));
+    const tweetId = this.route.snapshot.paramMap.get('id');
 
     if (tweetId) {
       this.http.get<Tweet[]>(`/assets/posts.json`).subscribe(data => {
@@ -58,17 +58,17 @@ export class PostComponent {
     }
   }
 
-  searchProfile(userId: number | undefined, event: MouseEvent) {
+  searchProfile(userId: string | undefined, event: MouseEvent) {
     event.stopPropagation();
     console.log("User: " + userId);
     this.router.navigate(['profile', userId]);
   }
 
-  getUserById(userId: number) {
+  getUserById(userId: string) {
     return this.users.find(user => user.id === userId);
   }
 
-  getLikeAmount(postId: number | undefined) {
+  getLikeAmount(postId: string | undefined) {
     return this.likes.find(like => like.postId === postId)?.likedBy.length || 0;
   }
 }

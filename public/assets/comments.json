@@ -1,20 +1,20 @@
 [
     {
-        "commentId": 10001,
-        "userId": 1,
-        "postId": 2,
+        "commentId": "10001",
+        "userId": "1",
+        "postId": "2",
         "content": "Szeretem a tejet1"
     },
     {
-        "commentId": 10002,
-        "userId": 3,
-        "postId": 2,
+        "commentId": "10002",
+        "userId": "3",
+        "postId": "2",
         "content": "Szeretem a tejet2"
     },
     {
-        "commentId": 10003,
-        "userId": 2,
-        "postId": 2,
+        "commentId": "10003",
+        "userId": "2",
+        "postId": "2",
         "content": "Szeretem a tejet3"
     }
 ]

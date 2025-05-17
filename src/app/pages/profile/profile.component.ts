@@ -1,20 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router'; // Az URL paraméterek kezeléséhez
-import { User } from '../../models/user.model'; // A User model importálása
-import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+
+import { User } from '../../models/user.model';
 import { Tweet } from '../../models/tweet.model';
 import { Like } from '../../models/like.model';
 import { Comment } from '../../models/comment.models';
-import { MatBadgeModule } from '@angular/material/badge';
 import { ShortenPipe } from '../../pipes/shorten.pipe';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports : [CommonModule, MatIconModule, RouterModule, MatBadgeModule, ShortenPipe],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    RouterModule,
+    MatBadgeModule,
+    ShortenPipe
+  ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -23,46 +30,49 @@ export class ProfileComponent implements OnInit {
   tweets: Tweet[] = [];
   likes: Like[] = [];
   comments: Comment[] = [];
-  
+
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
+    private firestore: AngularFirestore,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Az id paraméter kiolvasása az URL-ből
-    const userId = Number(this.route.snapshot.paramMap.get('id'));
+    const userId = this.route.snapshot.paramMap.get('id');
 
     if (userId) {
-      this.http.get<User[]>(`/assets/users.json`).subscribe(data => {
-        this.user = data.find(user => user.id === userId);
+      // Felhasználó Firestore-ból
+      this.firestore.collection<User>('users').doc(userId).valueChanges().subscribe(data => {
+        this.user = data;
       });
 
-      this.http.get<Tweet[]>('/assets/posts.json').subscribe(data => {
-        this.tweets = data.filter(tweet => tweet.userId === this.user?.id);
-      });
+      // Tweetek Firestore-ból
+      this.firestore.collection<Tweet>('posts', ref => ref.where('userId', '==', userId))
+        .valueChanges({ idField: 'id' }).subscribe(data => {
+          this.tweets = data;
+        });
 
-      this.http.get<Like[]>('/assets/likes.json').subscribe(data => {
+      // Like-ok Firestore-ból
+      this.firestore.collection<Like>('likes').valueChanges().subscribe(data => {
         this.likes = data;
       });
-  
-      this.http.get<Comment[]>('/assets/comments.json').subscribe(data => {
+
+      // Kommentek Firestore-ból
+      this.firestore.collection<Comment>('comments').valueChanges().subscribe(data => {
         this.comments = data;
       });
     }
   }
 
-  getLikeAmount(postId: number) {
+  getLikeAmount(postId: string) {
     return this.likes.find(like => like.postId === postId)?.likedBy.length || 0;
   }
 
-  getCommentAmount(postId: number): number {
+  getCommentAmount(postId: string): number {
     return this.comments.filter(comment => comment.postId === postId).length;
   }
 
-  searchTweet(id: number) {
-    console.log("Tweet: " + id)
+  searchTweet(id: string) {
     this.router.navigate(['post', id]);
   }
 }
