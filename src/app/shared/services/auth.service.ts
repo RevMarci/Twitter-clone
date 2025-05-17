@@ -95,7 +95,7 @@ export class AuthService {
     try {
       await signOut(this.auth);
       this.updateUserStorage(null);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     } catch (error) {
       console.error('Sign out error:', error);
       throw error;

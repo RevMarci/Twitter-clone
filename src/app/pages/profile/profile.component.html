@@ -1,28 +1,33 @@
 <div class="title">
     <a mat-button routerLink=""><mat-icon>arrow_back</mat-icon></a>
-    <p *ngIf="(combinedData$ | async)?.user?.name">{{ (combinedData$ | async)?.user?.name }}</p>
+    <p *ngIf="user?.name">{{ user?.name }}</p>
 </div>
 
-<img class="banner" [src]="(combinedData$ | async)?.user?.banner" alt="">
+<img class="banner" [src]="user?.banner" alt="">
 
 <div class="profile">
-    <img [src]="(combinedData$ | async)?.user?.pfp" alt="">
+    <img [src]="user?.pfp" alt="">
+    <button (click)="logout()">Log out</button>
 </div>
 
-<div *ngFor="let tweet of (combinedData$ | async)?.tweets" class="post" (click)="searchTweet(tweet.id)">
+<div *ngFor="let tweet of tweets" class="post" (click)="searchTweet(tweet.id)">
     <div class="pfp">
-      <img [src]="(combinedData$ | async)?.user?.pfp" alt="pfp" width="40" height="40" />
+      <img [src]="user?.pfp" alt="pfp" width="40" height="40" />
     </div>
     <div class="content">
-      <h1>{{ (combinedData$ | async)?.user?.name }}</h1>
+      <h1>{{ user?.name }}</h1>
       <p>{{ tweet.content | shorten:75 }}</p>
       <div class="actions">
-          <div class="like" [matBadge]="getLikeAmount((combinedData$ | async)?.likes || [], tweet.id)">
+          <div class="like" [matBadge]="getLikeAmount(tweet.id)">
               <mat-icon>favorite</mat-icon>
           </div>
-          <div class="comment" [matBadge]="getCommentAmount((combinedData$ | async)?.comments || [], tweet.id)">
+          <div class="comment" [matBadge]="getCommentAmount(tweet.id)">
               <mat-icon>chat_bubble</mat-icon>
           </div>
       </div>
     </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
 </div>
