@@ -1,0 +1,27 @@
+<div class="title">
+    <a mat-button routerLink="/home"><mat-icon>arrow_back</mat-icon></a>
+    <h1>Write Tweet</h1>
+</div>
+
+<form (submit)="onTweetClick()" class="tweet-form">
+    <mat-form-field appearance="outline" class="full-width">
+        <mat-label>What's happening?</mat-label>
+        <textarea 
+            matInput 
+            [(ngModel)]="tweetText" 
+            name="tweetText"
+            rows="5"
+            required
+            placeholder="Share your thoughts..."></textarea>
+    </mat-form-field>
+    
+    <div class="actions">
+        <button 
+            mat-raised-button 
+            color="primary" 
+            type="submit"
+            [disabled]="!tweetText?.trim() || isPosting">
+            {{ isPosting ? 'Posting...' : 'Tweet' }}
+        </button>
+    </div>
+</form>

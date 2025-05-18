@@ -17,7 +17,7 @@
         <h1 (click)="searchProfile(post.userId, $event)">
           {{ getUserById(post.userId)?.name || 'Ismeretlen felhasználó' }}
         </h1>
-        <p>{{ post.content }}</p>
+        <p>{{ post.content | shorten:75 }}</p>
       </div>
     </div>
   </mat-card>

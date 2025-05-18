@@ -20,6 +20,10 @@ export const routes: Routes = [
   {
     path: 'signup',
     loadComponent: () => import('./pages/signup/signup.component').then(m => m.SignupComponent)
+  },
+  {
+    path: 'writeTweet',
+    loadComponent: () => import('./pages/tweet/tweet.component').then(m => m.TweetComponent)
   }
 ];
 

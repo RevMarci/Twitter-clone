@@ -1,44 +1,27 @@
-.mat-mdc-button-base.login-button {
-  --mdc-outlined-button-outline-color: var(--borderColor) !important;
-  --mdc-outlined-button-outline-width: 1px !important;
-  --mdc-outlined-button-label-text-color: var(--textcolor) !important;
-
-  border-radius: 2em !important;
-  padding: 8px 24px !important;
-  transition: all 0.2s ease !important;
-  position: relative;
-  overflow: hidden;
+h1 {
+    margin: 20px;
 }
 
-.mat-mdc-button-base.login-button .button-label {
-  position: relative;
-  z-index: 1;
-}
-
-/* Hover állapot */
-.mat-mdc-button-base.login-button:hover:not(:disabled) {
-  --mdc-outlined-button-hover-state-layer-color: var(--borderColor) !important;
-  --mdc-outlined-button-hover-label-text-color: white !important;
-  background-color: transparent !important;
-}
-
-/* Disabled állapot */
-.mat-mdc-button-base.login-button:disabled {
-  --mdc-outlined-button-disabled-outline-color: rgba(255, 255, 255, 0.3) !important;
-  --mdc-outlined-button-disabled-label-text-color: rgba(255, 255, 255, 0.5) !important;
-  opacity: 0.7;
-}
-
-/* Űrlapformázás */
 form {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
+    display: block;
+    padding: 20px;
 }
 
-/* Űrlapelemek */
 mat-form-field {
-  display: block;
-  margin-bottom: 20px;
-  width: 100%;
+    display: block;
+}
+
+button {
+    border: 1px solid var(--borderColor);
+    border-radius: 2em;
+    padding: 15px;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: var(--borderColor);
+}
+
+a {
+    margin-left: 20px;
 }
