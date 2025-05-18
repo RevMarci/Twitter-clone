@@ -152,10 +152,8 @@ export class ProfileComponent implements OnInit {
   async logout(): Promise<void> {
     try {
       await this.authService.signOut();
-      // A signOut már tartalmaz navigálást a /home-ra
     } catch (error) {
       console.error('Logout error:', error);
-      // Itt kezelheted a hibát, pl. felhasználói értesítéssel
     }
   }
 }

@@ -1,69 +1,83 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // json beolvasashoz kell
-import { CommonModule } from '@angular/common'; // ha NgIf-et vagy más Angular pipe-ot használsz a HTML-ben
-import { User } from '../../models/user.model';
-import { Tweet } from '../../models/tweet.model';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
-import { Like } from '../../models/like.model';
-import { Comment } from '../../models/comment.models';
 import { MatCardModule } from '@angular/material/card';
 import { ShortenPipe } from '../../pipes/shorten.pipe';
+import { Firestore, collection, collectionData, query, orderBy } from '@angular/fire/firestore';
+import { Observable, firstValueFrom } from 'rxjs';
+import { MatSpinner } from '@angular/material/progress-spinner';
+
+interface User {
+  uid: string;
+  name: string;
+  pfp: string;
+}
+
+interface Post {
+  id: string;
+  content: string;
+  userId: string;
+}
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatBadgeModule, MatCardModule, ShortenPipe],
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatBadgeModule,
+    MatCardModule,
+    MatSpinner,
+    ShortenPipe
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  constructor(private router: Router, private http: HttpClient) {}
-
-  tweets: Tweet[] = [];
+  posts: Post[] = [];
   users: User[] = [];
-  likes: Like[] = [];
-  comments: Comment[] = [];
+  isLoading = true;
 
-  ngOnInit(): void {
-    this.http.get<Tweet[]>('/assets/posts.json').subscribe(data => {
-      this.tweets = data;
-    });
+  constructor(
+    private router: Router,
+    private firestore: Firestore
+  ) {}
 
-    this.http.get<User[]>('/assets/users.json').subscribe(data => {
-      this.users = data;
-    });
+  async ngOnInit(): Promise<void> {
+    try {
+      // 1. Posztok betöltése
+      const postsQuery = query(
+        collection(this.firestore, 'posts')
+      );
+      this.posts = await firstValueFrom(collectionData(postsQuery, { idField: 'id' })) as Post[];
+      
+      console.log('Betöltött posztok:', this.posts);
 
-    this.http.get<Like[]>('/assets/likes.json').subscribe(data => {
-      this.likes = data;
-    });
+      // 2. Felhasználók betöltése
+      const usersQuery = query(
+        collection(this.firestore, 'users')
+      );
+      this.users = await firstValueFrom(collectionData(usersQuery, { idField: 'uid' })) as User[];
 
-    this.http.get<Comment[]>('/assets/comments.json').subscribe(data => {
-      this.comments = data;
-    });
+    } catch (error) {
+      console.error('Hiba az adatok betöltésekor:', error);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
-  getUserByID(id: string) {
-    return this.users.find(user => user.id === id);
+  getUserById(userId: string): User | undefined {
+    return this.users.find(user => user.uid === userId);
   }
-  
-  searchProfile(userId: string, event: MouseEvent) {
+
+  searchProfile(userId: string, event: MouseEvent): void {
     event.stopPropagation();
-    console.log("User: " + userId);
     this.router.navigate(['profile', userId]);
   }
 
-  searchTweet(id: string) {
-    console.log("Tweet: " + id)
+  searchTweet(id: string): void {
     this.router.navigate(['post', id]);
-  }
-
-  getLikeAmount(postId: string) {
-    return this.likes.find(like => like.postId === postId)?.likedBy.length || 0;
-  }
-
-  getCommentAmount(postId: string): number {
-    return this.comments.filter(comment => comment.postId === postId).length;
   }
 }

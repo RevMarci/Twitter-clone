@@ -1,22 +1,24 @@
-<div>
-  <mat-card *ngFor="let tweet of tweets" class="post">
-    <div class="post-body" (click)="searchTweet(tweet.id)">
-      <div class="pfp" (click)="searchProfile(tweet.userId, $event)">
-        <img [src]="getUserByID(tweet.userId)?.pfp" alt="pfp" width="40" height="40" />
+<div *ngIf="isLoading" class="loading-spinner">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!isLoading">
+  <div *ngIf="posts.length === 0" class="no-tweets">
+    Nincsenek megjeleníthető tweetek.
+  </div>
+
+  <mat-card *ngFor="let post of posts" class="post">
+    <div class="post-body" (click)="searchTweet(post.id)">
+      <div class="pfp" (click)="searchProfile(post.userId, $event)">
+        <img [src]="getUserById(post.userId)?.pfp || 'assets/default-pfp.png'" 
+             alt="profile" width="40" height="40" />
       </div>
       <div class="content">
-        <h1 (click)="searchProfile(tweet.userId, $event)">{{ getUserByID(tweet.userId)?.name }}</h1>
-        <p>{{ tweet.content | shorten:75 }}</p>
-        <div class="actions">
-          <div class="like" [matBadge]="getLikeAmount(tweet.id)">
-            <mat-icon>favorite</mat-icon>
-          </div>
-          <div class="comment" [matBadge]="getCommentAmount(tweet.id)">
-            <mat-icon>chat_bubble</mat-icon>
-          </div>
-        </div>
+        <h1 (click)="searchProfile(post.userId, $event)">
+          {{ getUserById(post.userId)?.name || 'Ismeretlen felhasználó' }}
+        </h1>
+        <p>{{ post.content }}</p>
       </div>
     </div>
   </mat-card>
 </div>
-  
