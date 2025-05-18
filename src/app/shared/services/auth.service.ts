@@ -28,7 +28,7 @@ export class AuthService {
     this.currentUser$ = authState(this.auth).pipe(
       tap(user => {
         this.updateUserStorage(user);
-        console.log('Auth state changed:', user?.uid);
+        // console.log('Auth state changed:', user?.uid);
       })
     );
   }

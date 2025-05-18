@@ -5,10 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { Router } from '@angular/router';
 import { Firestore, collection, doc, collectionData, docData, query, where, orderBy, limit } from '@angular/fire/firestore';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ShortenPipe } from '../../pipes/shorten.pipe';
 import { AuthService } from '../../shared/services/auth.service';
 import { MatSpinner } from '@angular/material/progress-spinner';
+import { CapitalizePipe } from '../../pipes/capitalize.pipe';
 
 interface User {
   uid: string;
@@ -46,8 +47,9 @@ interface Comment {
     RouterModule,
     MatBadgeModule,
     MatSpinner,
-    ShortenPipe
-  ],
+    ShortenPipe,
+    CapitalizePipe
+],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -60,6 +62,7 @@ export class ProfileComponent implements OnInit {
   currentPage = 1;
   pageSize = 5;
   hasMoreTweets = false;
+  myProfile = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,6 +73,7 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const userId = this.route.snapshot.paramMap.get('id') || this.authService.getCurrentUserId();
+    this.myProfile = userId === this.authService.getCurrentUserId();
     
     if (!userId) {
       this.router.navigate(['/']);
@@ -132,7 +136,6 @@ export class ProfileComponent implements OnInit {
   loadMoreTweets(): void {
     if (!this.user) return;
     this.currentPage++;
-    // Egyszerűsített változat - a teljes oldaltöréshez további fejlesztés kell
     this.loadTweets(this.user.uid);
   }
 
@@ -146,7 +149,7 @@ export class ProfileComponent implements OnInit {
   }
 
   searchTweet(id: string): void {
-    this.router.navigate(['post', id]);
+    this.router.navigate(['/']);
   }
 
   async logout(): Promise<void> {

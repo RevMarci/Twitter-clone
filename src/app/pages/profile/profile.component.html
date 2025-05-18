@@ -1,13 +1,13 @@
 <div class="title">
     <a mat-button routerLink=""><mat-icon>arrow_back</mat-icon></a>
-    <p *ngIf="user?.name">{{ user?.name }}</p>
+    <p *ngIf="user?.name">{{ user?.name | capitalize }}</p>
 </div>
 
 <img class="banner" [src]="user?.banner" alt="">
 
 <div class="profile">
     <img [src]="user?.pfp" alt="">
-    <button (click)="logout()">Log out</button>
+    <button *ngIf="myProfile" (click)="logout()">Log out</button>
 </div>
 
 <div *ngFor="let tweet of tweets" class="post" (click)="searchTweet(tweet.id)">

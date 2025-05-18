@@ -43,7 +43,6 @@ export class SignupComponent implements OnDestroy {
     private router: Router
   ) {}
 
-  // Jelszó egyezés ellenőrzése - típusos megvalósítás
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const formGroup = control as FormGroup;
     const password = formGroup.get('password')?.value;

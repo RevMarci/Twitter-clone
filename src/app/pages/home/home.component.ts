@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
       );
       this.posts = await firstValueFrom(collectionData(postsQuery, { idField: 'id' })) as Post[];
       
-      console.log('Betöltött posztok:', this.posts);
+      // console.log('Betöltött posztok:', this.posts);
 
       // 2. Felhasználók betöltése
       const usersQuery = query(
@@ -78,6 +78,6 @@ export class HomeComponent implements OnInit {
   }
 
   searchTweet(id: string): void {
-    this.router.navigate(['post', id]);
+    this.router.navigate(['/']);
   }
 }

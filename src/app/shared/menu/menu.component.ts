@@ -28,8 +28,7 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Debug logs
-    this.isLoggedIn$.subscribe(status => console.log('Login status:', status));
-    this.currentUserId$.subscribe(id => console.log('Current user ID:', id));
+    // this.isLoggedIn$.subscribe(status => console.log('Login status:', status));
+    // this.currentUserId$.subscribe(id => console.log('Current user ID:', id));
   }
 }
